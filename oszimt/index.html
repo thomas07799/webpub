@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rsBurger @ OSZ IMT Berlin – Mini Burger am Schulhof</title>
+<meta name="description" content="rsBurger direkt am OSZ IMT Berlin – handgemachte Mini Burger ab 2€, Pommes, Cola & mehr. Nur solange der Vorrat reicht!">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#F0EEE9;
+  --white:#FAFAF8;
+  --ink:#0D0D0B;
+  --mid:#6B6860;
+  --orange:#FF4D00;
+  --orange2:#FF7A3D;
+  --border:rgba(13,13,11,0.1);
+  --border2:rgba(13,13,11,0.06);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Space Grotesk',sans-serif;font-weight:400;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--orange);}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--ink);height:34px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;
+}
+.topbar-track{
+  display:flex;white-space:nowrap;
+  animation:tick 16s linear infinite;
+}
+@keyframes tick{to{transform:translateX(-50%);}}
+.topbar-item{
+  font-family:'Space Mono',monospace;font-size:10px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);padding:0 20px;
+}
+.topbar-item.hi{color:var(--orange);}
+
+/* ── NAV ── */
+nav{
+  background:rgba(240,238,233,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:60px;
+  padding:0 40px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  letter-spacing:-0.02em;text-decoration:none;color:var(--ink);
+  display:flex;align-items:center;gap:8px;
+}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px rgba(255,77,0,0.5);}
+.logo-sub{font-size:11px;font-weight:500;color:var(--mid);letter-spacing:0.05em;}
+.nav-back{
+  font-size:12px;font-weight:600;letter-spacing:0.04em;
+  color:var(--mid);text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+  transition:color 0.2s;
+}
+.nav-back:hover{color:var(--ink);}
+.nav-back svg{width:14px;height:14px;}
+
+/* ══ HERO ══ */
+#hero{
+  min-height:90vh;display:flex;flex-direction:column;
+  justify-content:center;position:relative;overflow:hidden;
+  padding:80px 40px 0;
+}
+
+/* Animated grid */
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(13,13,11,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(13,13,11,0.04) 1px,transparent 1px);
+  background-size:50px 50px;
+  animation:gridPan 20s linear infinite;
+  pointer-events:none;z-index:0;
+}
+@keyframes gridPan{from{background-position:0 0;}to{background-position:50px 50px;}}
+.grid-bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 30% 50%,rgba(240,238,233,0) 0%,var(--bg) 65%);
+}
+
+.hero-glow{
+  position:absolute;width:700px;height:700px;
+  background:radial-gradient(circle,rgba(255,77,0,0.1) 0%,transparent 70%);
+  top:-100px;right:-150px;pointer-events:none;z-index:1;
+}
+
+.hero-content{
+  max-width:1100px;margin:0 auto;width:100%;
+  position:relative;z-index:2;
+}
+
+.hero-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:100px;padding:6px 16px 6px 8px;margin-bottom:32px;
+}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,77,0,0.4)}50%{box-shadow:0 0 0 8px rgba(255,77,0,0);}}
+.chip-txt{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);}
+
+.hero-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(56px,10vw,140px);
+  font-weight:800;line-height:0.86;letter-spacing:-0.04em;
+  margin-bottom:32px;
+}
+.h1-small{display:block;color:var(--mid);font-size:0.35em;font-weight:600;letter-spacing:0.02em;margin-bottom:16px;}
+.h1-main{
+  display:block;
+  background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.h1-sub{display:block;color:var(--ink);}
+
+.hero-desc{
+  font-size:16px;line-height:1.8;color:var(--mid);
+  max-width:540px;margin-bottom:40px;
+  border-left:2px solid var(--orange);padding-left:20px;
+}
+.hero-desc strong{color:var(--ink);font-weight:600;}
+
+/* Urgency badge */
+.urgency{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,77,0,0.08);border:1.5px solid rgba(255,77,0,0.2);
+  border-radius:12px;padding:14px 20px;margin-bottom:40px;
+}
+.urgency-icon{font-size:20px;}
+.urgency-txt{font-size:13px;font-weight:600;color:var(--orange);}
+
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:72px;}
+.cta-main{
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  background:var(--ink);color:#fff;padding:15px 36px;border-radius:100px;
+  text-decoration:none;transition:all 0.25s;
+  box-shadow:0 4px 24px rgba(13,13,11,0.18);
+}
+.cta-main:hover{background:var(--orange);box-shadow:0 4px 24px rgba(255,77,0,0.3);transform:translateY(-2px);}
+.cta-sec{
+  font-size:14px;font-weight:500;color:var(--mid);
+  padding:15px 24px;border-radius:100px;border:1.5px solid var(--border);
+  text-decoration:none;transition:all 0.2s;
+}
+.cta-sec:hover{border-color:var(--ink);color:var(--ink);}
+
+/* ── STATS STRIP ── */
+.stats-strip{
+  border-top:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  max-width:1100px;margin:0 auto;width:100%;
+  position:relative;z-index:2;
+}
+.stat{
+  padding:28px 0 28px 32px;border-right:1px solid var(--border);
+}
+.stat:last-child{border-right:none;}
+.stat-num{
+  font-family:'Syne',sans-serif;font-size:36px;font-weight:800;
+  letter-spacing:-0.03em;line-height:1;margin-bottom:4px;
+}
+.stat-num em{color:var(--orange);font-style:normal;}
+.stat-label{font-size:12px;color:var(--mid);font-weight:500;}
+
+/* ══ MARQUEE ══ */
+.marquee{background:var(--ink);overflow:hidden;padding:20px 0;}
+.m-track{display:flex;white-space:nowrap;animation:tick 10s linear infinite;}
+.m-item{
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:700;
+  color:rgba(255,255,255,0.1);text-transform:uppercase;padding:0 28px;letter-spacing:0.04em;
+}
+.m-item.hi{color:var(--orange);}
+
+/* ══ MENU ══ */
+#menu{padding:100px 40px;background:var(--white);border-top:1px solid var(--border);}
+.menu-inner{max-width:900px;margin:0 auto;}
+
+.sec-label{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px;
+}
+.sec-label::before{content:'';width:20px;height:1.5px;background:var(--orange);}
+
+.menu-h2{
+  font-family:'Syne',sans-serif;font-size:clamp(40px,5vw,72px);
+  font-weight:800;letter-spacing:-0.03em;line-height:0.9;margin-bottom:56px;
+}
+.menu-h2 span{color:var(--orange);}
+
+.menu-section{margin-bottom:48px;}
+.menu-section-title{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.4em;
+  text-transform:uppercase;color:var(--mid);
+  padding-bottom:16px;border-bottom:1px solid var(--border2);margin-bottom:4px;
+}
+.menu-row{
+  display:grid;grid-template-columns:44px 1fr auto auto;
+  gap:20px;align-items:center;
+  padding:18px 0;border-bottom:1px solid var(--border2);
+  transition:padding-left 0.2s,background 0.2s;
+  border-radius:4px;cursor:default;
+}
+.menu-row:hover{padding-left:10px;background:rgba(255,77,0,0.03);}
+.mr-icon{font-size:22px;text-align:center;}
+.mr-info{}
+.mr-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:2px;}
+.mr-desc{font-size:12px;color:var(--mid);}
+.mr-badge{
+  font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;white-space:nowrap;
+}
+.b-hit{background:rgba(255,77,0,0.1);color:var(--orange);}
+.b-veg{background:rgba(34,197,94,0.1);color:#15803d;}
+.b-hot{background:rgba(239,68,68,0.1);color:#dc2626;}
+.b-neu{background:rgba(0,87,255,0.08);color:#0057FF;}
+.mr-price{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  letter-spacing:-0.02em;text-align:right;white-space:nowrap;
+}
+
+/* COMBO highlight */
+.combo-card{
+  background:var(--ink);border-radius:20px;padding:32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;margin-top:40px;flex-wrap:wrap;
+}
+.combo-left{}
+.combo-label{
+  font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);margin-bottom:8px;
+}
+.combo-name{
+  font-family:'Syne',sans-serif;font-size:26px;font-weight:800;
+  letter-spacing:-0.02em;color:#fff;margin-bottom:6px;
+}
+.combo-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.5;}
+.combo-price{
+  font-family:'Syne',sans-serif;font-size:48px;font-weight:800;
+  letter-spacing:-0.04em;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;white-space:nowrap;flex-shrink:0;
+}
+
+/* ══ INFO ══ */
+#info{padding:100px 40px;background:var(--bg);}
+.info-inner{max-width:900px;margin:0 auto;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px;}
+.info-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:20px;padding:32px;transition:border-color 0.25s;
+}
+.info-card:hover{border-color:var(--orange);}
+.info-card-icon{font-size:32px;margin-bottom:16px;display:block;}
+.info-card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
+.info-card-text{font-size:13px;line-height:1.75;color:var(--mid);}
+.info-card-text strong{color:var(--ink);}
+
+/* ══ FOOTER ══ */
+footer{
+  background:var(--ink);padding:40px;
+  display:flex;flex-direction:column;gap:32px;
+}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.f-logo{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+  color:#fff;text-decoration:none;letter-spacing:-0.02em;
+  display:flex;align-items:center;gap:8px;
+}
+.f-logo-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);}
+.f-back{
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);
+  text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:6px;
+}
+.f-back:hover{color:#fff;}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.f-copy{font-size:11px;color:rgba(255,255,255,0.15);letter-spacing:0.05em;}
+.f-live{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,77,0,0.6);font-weight:600;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+.r.in{opacity:1;transform:none;}
+.r2{opacity:0;transform:translateY(24px);transition:opacity 0.7s 0.12s cubic-bezier(0.16,1,0.3,1),transform 0.7s 0.12s cubic-bezier(0.16,1,0.3,1);}
+.r2.in{opacity:1;transform:none;}
+
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  #hero{padding:60px 20px 0;}
+  .stats-strip{grid-template-columns:1fr 1fr;padding:0;}
+  .stat{padding:20px 0 20px 16px;}
+  .stat:nth-child(2){border-right:none;}
+  .stat:nth-child(3){border-top:1px solid var(--border);}
+  #menu,#info{padding:72px 20px;}
+  .info-grid{grid-template-columns:1fr;}
+  .combo-card{flex-direction:column;text-align:center;}
+  .menu-row{grid-template-columns:36px 1fr auto;}
+  .mr-badge{display:none;}
+  footer{padding:32px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-track">
+    <span class="topbar-item hi">🍔 rsBurger</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item">OSZ IMT Berlin</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item hi">Nur solange Vorrat reicht!</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item">Ab 2€ · Frisch & Handgemacht</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item hi">🍔 rsBurger</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item">OSZ IMT Berlin</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item hi">Nur solange Vorrat reicht!</span>
+    <span class="topbar-item">·</span>
+    <span class="topbar-item">Ab 2€ · Frisch & Handgemacht</span>
+    <span class="topbar-item">·</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="/oszimt/" class="nav-logo">
+    <div class="logo-dot"></div>
+    rsBurger
+    <span class="logo-sub">@ OSZ IMT</span>
+  </a>
+  <a href="/" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Catering-Hauptseite
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-chip r">
+      <div class="chip-dot"></div>
+      <span class="chip-txt">Heute hier · OSZ IMT Berlin</span>
+    </div>
+    <h1 class="hero-h1 r">
+      <span class="h1-small">rsBurger direkt am Schulhof</span>
+      <span class="h1-main">Mini</span>
+      <span class="h1-sub">Burger.</span>
+    </h1>
+    <div class="urgency r">
+      <span class="urgency-icon">⚡</span>
+      <span class="urgency-txt">Nur solange der Vorrat reicht – komm früh!</span>
+    </div>
+    <p class="hero-desc r">
+      Handgemachte <strong>Mini Burger ab 2€</strong>, Pommes, eiskalte Drinks und Chupa Chups –
+      direkt hier am <strong>OSZ IMT Berlin</strong>. Frisch zubereitet, kein Aufwärmen, kein Kompromiss.
+    </p>
+    <div class="hero-ctas r2">
+      <a href="#menu" class="cta-main">Speisekarte ansehen</a>
+      <a href="#info" class="cta-sec">Wo & Wann?</a>
+    </div>
+  </div>
+
+  <div class="stats-strip r">
+    <div class="stat"><div class="stat-num">ab <em>2€</em></div><div class="stat-label">Pro Mini Burger</div></div>
+    <div class="stat"><div class="stat-num"><em>6</em></div><div class="stat-label">Burger-Varianten</div></div>
+    <div class="stat"><div class="stat-num"><em>100%</em></div><div class="stat-label">Handgemacht</div></div>
+    <div class="stat"><div class="stat-num"><em>⚡</em></div><div class="stat-label">Solange Vorrat reicht</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="m-track">
+    <span class="m-item hi">🍔</span><span class="m-item">Classic Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Cheese Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Spicy Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Bacon Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Veggie Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Double Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">🍟 Pommes</span>
+    <span class="m-item hi">·</span><span class="m-item">❤️ Cola</span>
+    <span class="m-item hi">·</span><span class="m-item">🍭 Chupa Chups</span>
+    <span class="m-item hi">·</span>
+    <span class="m-item hi">🍔</span><span class="m-item">Classic Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Cheese Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Spicy Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Bacon Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Veggie Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">Double Mini</span>
+    <span class="m-item hi">·</span><span class="m-item">🍟 Pommes</span>
+    <span class="m-item hi">·</span><span class="m-item">❤️ Cola</span>
+    <span class="m-item hi">·</span><span class="m-item">🍭 Chupa Chups</span>
+    <span class="m-item hi">·</span>
+  </div>
+</div>
+
+<!-- ═══ MENU ═══ -->
+<section id="menu">
+  <div class="menu-inner">
+    <div class="r"><div class="sec-label">Speisekarte</div>
+    <h2 class="menu-h2">Was gibt's <span>heute?</span></h2></div>
+
+    <div class="menu-section r2">
+      <div class="menu-section-title">// Mini Burger</div>
+      <div class="menu-row"><span class="mr-icon">🍔</span><div class="mr-info"><div class="mr-name">Classic Mini</div><div class="mr-desc">Saftiges Patty · Bun · Senf & Ketchup</div></div><span class="mr-badge b-hit">Bestseller</span><div class="mr-price">2,00 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🧀</span><div class="mr-info"><div class="mr-name">Cheese Mini</div><div class="mr-desc">Classic + echter Schmelzkäse</div></div><span class="mr-badge b-neu">Beliebt</span><div class="mr-price">2,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🥬</span><div class="mr-info"><div class="mr-name">Veggie Mini</div><div class="mr-desc">Salat · Tomate · Sauce – ohne Fleisch</div></div><span class="mr-badge b-veg">Veg</span><div class="mr-price">2,00 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🌶️</span><div class="mr-info"><div class="mr-name">Spicy Mini</div><div class="mr-desc">Hausgemachte Chili-Sauce · Nichts für Feiglinge</div></div><span class="mr-badge b-hot">Scharf 🔥</span><div class="mr-price">2,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🥓</span><div class="mr-info"><div class="mr-name">Bacon Mini</div><div class="mr-desc">Knuspriger Speck on top</div></div><span class="mr-badge b-neu">Premium</span><div class="mr-price">3,00 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🍔</span><div class="mr-info"><div class="mr-name">Double Mini</div><div class="mr-desc">Doppeltes Patty · Doppelter Spaß</div></div><span class="mr-badge b-neu">Double</span><div class="mr-price">3,50 €</div></div>
+    </div>
+
+    <div class="menu-section r2">
+      <div class="menu-section-title">// Beilagen & Drinks</div>
+      <div class="menu-row"><span class="mr-icon">🍟</span><div class="mr-info"><div class="mr-name">Pommes Frites</div><div class="mr-desc">Knusprig · Ketchup oder Mayo</div></div><span class="mr-badge b-hit">Frisch</span><div class="mr-price">2,00 €</div></div>
+      <div class="menu-row"><span class="mr-icon">❤️</span><div class="mr-info"><div class="mr-name">Cola</div><div class="mr-desc">0,33L Dose · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🧡</span><div class="mr-info"><div class="mr-name">Fanta</div><div class="mr-desc">0,33L Dose · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">💙</span><div class="mr-info"><div class="mr-name">Sprite</div><div class="mr-desc">0,33L Dose · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">💧</span><div class="mr-info"><div class="mr-name">Wasser</div><div class="mr-desc">0,5L Flasche</div></div><span class="mr-badge"></span><div class="mr-price">1,00 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🍭</span><div class="mr-info"><div class="mr-name">Chupa Chups</div><div class="mr-desc">Der Klassiker</div></div><span class="mr-badge"></span><div class="mr-price">0,50 €</div></div>
+      <div class="menu-row"><span class="mr-icon">🍭</span><div class="mr-info"><div class="mr-name">3× Chupa Chups</div><div class="mr-desc">Bundle · Günstiger als einzeln</div></div><span class="mr-badge b-hit">Bundle</span><div class="mr-price">1,20 €</div></div>
+    </div>
+
+    <div class="combo-card r2">
+      <div class="combo-left">
+        <div class="combo-label">Sparangebot</div>
+        <div class="combo-name">🔥 Combo Deal</div>
+        <div class="combo-desc">2× Mini Burger + 1× Dose + 1× Pommes<br>Spar dir die Einzelpreise – gönn dir das Kombi.</div>
+      </div>
+      <div class="combo-price">ab 6€</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INFO ═══ -->
+<section id="info">
+  <div class="info-inner">
+    <div class="r"><div class="sec-label">Infos</div>
+    <h2 class="menu-h2" style="margin-bottom:0">Wo & <span>Wann?</span></h2></div>
+    <div class="info-grid">
+      <div class="info-card r">
+        <span class="info-card-icon">📍</span>
+        <div class="info-card-title">Standort</div>
+        <div class="info-card-text"><strong>OSZ IMT Berlin</strong><br>Direkt am Schulgelände<br>– schau nach dem Stand!</div>
+      </div>
+      <div class="info-card r2">
+        <span class="info-card-icon">⚡</span>
+        <div class="info-card-title">Wichtig!</div>
+        <div class="info-card-text">Nur solange der Vorrat reicht. <strong>Komm früh</strong>, sonst ist's weg. Kein Nachbestellen möglich.</div>
+      </div>
+      <div class="info-card r">
+        <span class="info-card-icon">💳</span>
+        <div class="info-card-title">Bezahlung</div>
+        <div class="info-card-text"><strong>Bar</strong> bevorzugt.<br>Passend wäre super – wir geben aber Wechselgeld.</div>
+      </div>
+      <div class="info-card r2">
+        <span class="info-card-icon">🏢</span>
+        <div class="info-card-title">Catering buchen?</div>
+        <div class="info-card-text">Für Events, Feste oder Schulveranstaltungen:<br><strong><a href="/" style="color:var(--orange);text-decoration:none;">→ Zur Catering-Hauptseite</a></strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <a href="/" class="f-logo"><div class="f-logo-dot"></div>rsBurger</a>
+    <a href="/" class="f-back">← Zurück zur Catering-Hauptseite</a>
+  </div>
+  <div class="footer-bottom">
+    <span class="f-copy">© 2025 rsBurger · Thomas Rosinski · sekretariat.rsburger@gmail.com</span>
+    <div class="f-live"><div class="live-dot"></div>Heute am OSZ IMT</div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);} });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.r,.r2').forEach(el => obs.observe(el));
+setTimeout(() => {
+  document.querySelectorAll('#hero .r,#hero .r2').forEach((el,i) => {
+    setTimeout(() => el.classList.add('in'), i * 130);
+  });
+}, 60);
+</script>
+</body>
+</html>
