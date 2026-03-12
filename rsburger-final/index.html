@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rsBurger – Burger Catering Berlin & Brandenburg</title>
+<meta name="description" content="rsBurger: Professionelles Burger-Catering in Berlin & Brandenburg. Handgemachte Mini-Burger für Stadtfeste, Märkte, Schulen und Firmenevents.">
+<meta name="keywords" content="Burger Catering Berlin, Streetfood Catering Brandenburg, Mini Burger Event, Burger Stand mieten Berlin">
+<meta property="og:title" content="rsBurger – Burger Catering Berlin & Brandenburg">
+<meta property="og:type" content="website">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@400;500;700;800;900&display=swap');
+
+:root {
+  --bg:    #0a0a0a;
+  --card:  #111;
+  --neon:  #C8FF00;
+  --pink:  #FF2D78;
+  --blue:  #00D4FF;
+  --white: #F5F5F0;
+  --muted: rgba(245,245,240,0.4);
+  --border: rgba(255,255,255,0.07);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--neon);}
+
+/* ── TICKER ── */
+.ticker{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--neon);height:36px;
+  display:flex;align-items:center;overflow:hidden;
+}
+.ticker-track{
+  display:flex;white-space:nowrap;
+  animation:tick 16s linear infinite;
+}
+@keyframes tick{to{transform:translateX(-50%);}}
+.t-item{
+  font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:0.12em;
+  color:var(--bg);padding:0 20px;
+}
+.t-sep{color:rgba(0,0,0,0.25);padding:0 4px;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:36px;left:0;right:0;z-index:199;
+  height:64px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,10,10,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.06em;
+  text-decoration:none;color:var(--white);
+  display:flex;align-items:center;gap:3px;
+}
+.logo-rs{color:var(--neon);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{
+  font-size:13px;font-weight:700;letter-spacing:0.02em;
+  color:var(--muted);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-oszimt{
+  font-size:12px;font-weight:700;letter-spacing:0.04em;
+  color:var(--blue);border:1.5px solid rgba(0,212,255,0.3);
+  padding:8px 18px;border-radius:6px;text-decoration:none;
+  transition:all .2s;
+}
+.nav-oszimt:hover{background:rgba(0,212,255,0.08);border-color:var(--blue);}
+.oszimt-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,212,255,0.08);border:1.5px solid rgba(0,212,255,0.3);
+  border-radius:100px;padding:7px 20px;
+  font-size:13px;font-weight:800;letter-spacing:0.04em;
+  color:#00D4FF;text-decoration:none;
+  transition:all .2s;white-space:nowrap;
+}
+.oszimt-btn:hover{background:rgba(0,212,255,0.18);border-color:#00D4FF;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,0.2);}
+.nav-cta{
+  font-size:13px;font-weight:800;letter-spacing:0.03em;
+  background:var(--neon);color:var(--bg);
+  padding:10px 24px;border-radius:6px;text-decoration:none;
+  transition:all .2s;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,255,0,0.3);}
+
+.nav-mob{display:none;background:none;border:none;cursor:pointer;padding:4px;}
+.mob-lines{display:flex;flex-direction:column;gap:5px;}
+.mob-lines span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;}
+
+.mob-panel{
+  display:none;position:fixed;inset:100px 0 0;z-index:198;
+  background:var(--bg);
+  flex-direction:column;padding:48px 32px;gap:0;border-top:1px solid var(--border);
+}
+.mob-panel.open{display:flex;}
+.mob-panel a{
+  font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:0.06em;
+  color:var(--white);text-decoration:none;padding:12px 0;
+  border-bottom:1px solid var(--border);transition:color .2s;
+}
+.mob-panel a:hover{color:var(--neon);}
+
+/* ══════════════════
+   HERO
+══════════════════ */
+#hero{
+  min-height:100vh;padding-top:100px;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+
+/* Big glow blobs */
+.blob{
+  position:absolute;border-radius:50%;
+  filter:blur(120px);pointer-events:none;z-index:0;
+}
+.blob-1{width:600px;height:600px;background:rgba(200,255,0,0.08);top:-200px;right:-100px;}
+.blob-2{width:400px;height:400px;background:rgba(255,45,120,0.07);bottom:0;left:-100px;}
+.blob-3{width:300px;height:300px;background:rgba(0,212,255,0.06);top:40%;right:20%;}
+
+.hero-inner{
+  flex:1;
+  max-width:1360px;margin:0 auto;width:100%;
+  padding:60px 40px;
+  position:relative;z-index:2;
+}
+
+/* Big stacked type */
+.hero-top{
+  display:grid;grid-template-columns:1fr auto;
+  gap:40px;align-items:flex-start;margin-bottom:40px;
+}
+.hero-heading{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(200,255,0,0.08);border:1px solid rgba(200,255,0,0.2);
+  border-radius:100px;padding:6px 16px;margin-bottom:28px;
+}
+.ey-dot{width:7px;height:7px;border-radius:50%;background:var(--neon);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,0.5)}50%{box-shadow:0 0 0 8px rgba(200,255,0,0);}}
+.ey-txt{font-size:12px;font-weight:700;letter-spacing:0.08em;color:var(--neon);}
+
+.hero-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(90px,14vw,200px);
+  line-height:0.82;letter-spacing:0.02em;
+  margin-bottom:0;
+}
+.h-line1{display:block;color:var(--white);}
+.h-line2{
+  display:block;color:transparent;
+  -webkit-text-stroke:2px var(--neon);
+  text-shadow:0 0 60px rgba(200,255,0,0.15);
+}
+.h-line3{display:block;color:var(--white);}
+
+/* Right side floating card */
+.hero-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;
+  width:260px;flex-shrink:0;
+  position:relative;top:20px;
+  animation:cardFloat 5s ease-in-out infinite;
+}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hc-emoji{font-size:72px;display:block;text-align:center;margin-bottom:16px;
+  filter:drop-shadow(0 0 20px rgba(200,255,0,0.3));
+}
+.hc-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.06em;text-align:center;color:var(--white);margin-bottom:4px;}
+.hc-sub{font-size:12px;color:var(--muted);text-align:center;}
+.hc-divider{height:1px;background:var(--border);margin:16px 0;}
+.hc-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.hc-stat:last-child{margin-bottom:0;}
+.hc-stat-label{font-size:11px;color:var(--muted);}
+.hc-stat-val{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.06em;color:var(--neon);}
+
+/* Hero mid — desc + actions */
+.hero-mid{
+  display:flex;align-items:flex-end;gap:60px;
+  margin-bottom:60px;flex-wrap:wrap;
+}
+.hero-desc{
+  font-size:17px;line-height:1.75;color:var(--muted);
+  max-width:520px;flex:1;
+}
+.hero-desc strong{color:var(--white);}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0;}
+.btn-main{
+  font-size:14px;font-weight:800;letter-spacing:0.03em;
+  background:var(--neon);color:var(--bg);
+  padding:15px 32px;border-radius:8px;text-decoration:none;
+  transition:all .25s;
+}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(200,255,0,0.25);}
+.btn-out{
+  font-size:14px;font-weight:700;letter-spacing:0.02em;
+  color:var(--white);border:1.5px solid var(--border);
+  padding:15px 28px;border-radius:8px;text-decoration:none;
+  transition:all .25s;
+}
+.btn-out:hover{border-color:rgba(255,255,255,0.3);}
+
+/* Stats row */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;z-index:2;
+}
+.stat{
+  padding:28px 32px;border-right:1px solid var(--border);
+  transition:background .2s;
+}
+.stat:hover{background:rgba(200,255,0,0.03);}
+.stat:last-child{border-right:none;}
+.stat-n{
+  font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:0.04em;
+  line-height:1;color:var(--neon);margin-bottom:4px;
+}
+.stat-l{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.04em;}
+
+/* ══ MARQUEE ══ */
+.marquee{overflow:hidden;background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.m-track{display:flex;white-space:nowrap;animation:tick 10s linear infinite;padding:18px 0;}
+.m-item{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.1em;
+  color:rgba(245,245,240,0.08);padding:0 24px;
+}
+.m-item.on{color:var(--neon);}
+
+/* ══════════════════
+   LEISTUNGEN
+══════════════════ */
+#leistungen{padding:120px 0;border-top:1px solid var(--border);}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+
+.section-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--neon);margin-bottom:16px;
+}
+.section-tag::before{content:'';width:20px;height:2px;background:var(--neon);}
+.section-h{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,6.5vw,90px);
+  letter-spacing:0.03em;line-height:0.88;margin-bottom:64px;
+}
+.section-h span{color:var(--neon);}
+
+/* Big horizontal cards */
+.leis-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);}
+.leis-card{
+  background:var(--card);padding:48px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.leis-card:hover{background:#161616;}
+.lc-num{
+  position:absolute;top:24px;right:28px;
+  font-family:'Bebas Neue',sans-serif;font-size:80px;letter-spacing:0.04em;
+  color:rgba(255,255,255,0.03);line-height:1;
+  transition:color .3s;
+}
+.leis-card:hover .lc-num{color:rgba(200,255,0,0.04);}
+.lc-icon{font-size:40px;margin-bottom:20px;display:block;}
+.lc-title{
+  font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:0.04em;
+  color:var(--white);margin-bottom:12px;
+}
+.lc-desc{font-size:14px;line-height:1.75;color:var(--muted);margin-bottom:24px;}
+.lc-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.lc-tag{
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:100px;
+  background:rgba(255,255,255,0.05);color:var(--muted);
+  transition:all .2s;border:1px solid transparent;
+}
+.leis-card:hover .lc-tag{border-color:rgba(200,255,0,0.15);color:var(--neon);}
+
+/* ══════════════════
+   MENU
+══════════════════ */
+#menu{padding:120px 0;background:var(--card);border-top:1px solid var(--border);}
+
+.menu-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:48px;flex-wrap:wrap;gap:24px;
+}
+.menu-tabs{display:flex;gap:4px;}
+.mtab{
+  font-size:12px;font-weight:800;letter-spacing:0.06em;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  color:var(--muted);padding:10px 20px;border-radius:6px;
+  cursor:pointer;font-family:'Cabinet Grotesk',sans-serif;
+  transition:all .2s;
+}
+.mtab.on{background:var(--neon);color:var(--bg);border-color:var(--neon);}
+.mtab:not(.on):hover{color:var(--white);border-color:rgba(255,255,255,0.2);}
+
+/* Menu rows */
+.menu-rows{display:flex;flex-direction:column;gap:2px;}
+.menu-row{
+  background:rgba(255,255,255,0.02);
+  display:grid;grid-template-columns:56px 1fr auto auto;
+  gap:20px;align-items:center;
+  padding:20px 24px;border-radius:8px;
+  transition:all .2s;cursor:default;
+}
+.menu-row:hover{background:rgba(200,255,0,0.05);transform:translateX(4px);}
+.mr-icon{font-size:26px;text-align:center;}
+.mr-name{font-size:16px;font-weight:800;color:var(--white);margin-bottom:3px;}
+.mr-desc{font-size:12px;color:var(--muted);}
+.mr-badge{
+  font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;white-space:nowrap;
+}
+.bg{background:rgba(200,255,0,0.1);color:var(--neon);}
+.bv{background:rgba(74,222,128,0.1);color:#4ade80;}
+.br{background:rgba(255,45,120,0.1);color:var(--pink);}
+.by{background:rgba(251,191,36,0.1);color:#fbbf24;}
+.mr-price{
+  font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.04em;
+  color:var(--neon);text-align:right;
+}
+
+/* Combo */
+.combo{
+  margin-top:16px;
+  background:linear-gradient(135deg,rgba(200,255,0,0.08),rgba(200,255,0,0.03));
+  border:1px solid rgba(200,255,0,0.2);border-radius:12px;
+  padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.combo-left{}
+.combo-tag{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--neon);margin-bottom:8px;}
+.combo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.06em;color:var(--white);margin-bottom:4px;}
+.combo-desc{font-size:13px;color:var(--muted);}
+.combo-price{
+  font-family:'Bebas Neue',sans-serif;font-size:60px;letter-spacing:0.02em;
+  color:var(--neon);text-shadow:0 0 40px rgba(200,255,0,0.2);
+}
+
+/* ══════════════════
+   ABOUT
+══════════════════ */
+#about{padding:120px 0;border-top:1px solid var(--border);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+
+.about-left{}
+.about-big{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,6.5vw,88px);
+  letter-spacing:0.03em;line-height:0.88;margin-bottom:28px;
+}
+.about-big span{color:var(--neon);}
+.about-quote{
+  font-size:20px;line-height:1.6;font-weight:700;color:var(--white);
+  border-left:3px solid var(--neon);padding-left:20px;
+  margin-bottom:24px;
+}
+.about-body{font-size:14px;line-height:1.85;color:var(--muted);margin-bottom:10px;}
+
+.about-right{display:flex;flex-direction:column;gap:3px;}
+.pillar{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:24px;
+  transition:all .25s;
+}
+.pillar:hover{border-color:rgba(200,255,0,0.2);background:#161616;}
+.p-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.p-name{font-size:15px;font-weight:800;color:var(--white);}
+.p-num{font-size:11px;font-weight:700;color:var(--neon);letter-spacing:0.1em;}
+.p-desc{font-size:12px;line-height:1.7;color:var(--muted);}
+
+/* ══════════════════
+   KONTAKT
+══════════════════ */
+#kontakt{padding:120px 0;background:var(--card);border-top:1px solid var(--border);}
+.kont-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;}
+
+.kont-h{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,6.5vw,88px);
+  letter-spacing:0.03em;line-height:0.88;margin-bottom:16px;
+}
+.kont-h span{color:var(--neon);}
+.kont-sub{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:40px;}
+
+.ki-list{display:flex;flex-direction:column;gap:2px;}
+.ki{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:8px;padding:14px 20px;
+  display:flex;align-items:center;gap:14px;
+  transition:border-color .2s;
+}
+.ki:hover{border-color:rgba(200,255,0,0.2);}
+.ki-icon{width:34px;height:34px;border-radius:7px;background:rgba(200,255,0,0.08);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.ki-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.ki-val{font-size:13px;font-weight:600;color:var(--white);}
+.ki-val a{color:var(--neon);text-decoration:none;}
+
+/* Form */
+.kform{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:36px;}
+.kf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.kf-g{margin-bottom:18px;}
+.kf-l{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block;}
+.kf-c{
+  background:rgba(255,255,255,0.04);border:1.5px solid var(--border);
+  border-radius:8px;color:var(--white);
+  font-family:'Cabinet Grotesk',sans-serif;font-size:14px;font-weight:500;
+  padding:12px 16px;width:100%;outline:none;
+  transition:border-color .2s;caret-color:var(--neon);
+}
+.kf-c::placeholder{color:rgba(245,245,240,0.15);}
+.kf-c:focus{border-color:rgba(200,255,0,0.4);}
+select.kf-c{appearance:none;cursor:pointer;}
+select.kf-c option{background:var(--card);}
+textarea.kf-c{resize:none;height:110px;}
+.kf-sub{
+  width:100%;font-family:'Cabinet Grotesk',sans-serif;
+  font-size:14px;font-weight:800;letter-spacing:0.04em;
+  color:var(--bg);background:var(--neon);border:none;
+  border-radius:8px;padding:15px;cursor:pointer;
+  transition:all .25s;margin-top:4px;
+  box-shadow:0 0 0 rgba(200,255,0,0);
+}
+.kf-sub:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,255,0,0.25);}
+
+/* ══ LEGAL ══ */
+#legal{padding:80px 0;border-top:1px solid var(--border);}
+.legal-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.legal-block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;}
+.legal-tag{font-size:10px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--neon);margin-bottom:20px;display:block;}
+.legal-block h3{font-size:13px;font-weight:700;color:var(--white);margin:18px 0 6px;}
+.legal-block h3:first-of-type{margin-top:0;}
+.legal-block p{font-size:12px;line-height:1.8;color:var(--muted);}
+.legal-block a{color:var(--neon);text-decoration:none;}
+
+/* ══ FOOTER ══ */
+footer{background:var(--card);border-top:1px solid var(--border);}
+.footer-main{
+  max-width:1360px;margin:0 auto;padding:60px 40px 40px;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+}
+.f-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.06em;
+  color:var(--white);text-decoration:none;display:block;margin-bottom:14px;
+}
+.f-logo span{color:var(--neon);}
+.f-desc{font-size:13px;line-height:1.8;color:var(--muted);max-width:260px;}
+.f-head{font-size:10px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:block;}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.f-links a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500;transition:color .2s;}
+.f-links a:hover{color:var(--white);}
+.footer-btm{
+  max-width:1360px;margin:0 auto;padding:20px 40px;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+}
+.f-copy{font-size:11px;color:rgba(245,245,240,0.2);letter-spacing:0.05em;}
+.f-live{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--neon);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* ══ REVEAL ══ */
+.r{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(0.16,1,.3,1),transform .7s cubic-bezier(0.16,1,.3,1);}
+.r.in{opacity:1;transform:none;}
+.r2{opacity:0;transform:translateY(24px);transition:opacity .7s .1s cubic-bezier(0.16,1,.3,1),transform .7s .1s cubic-bezier(0.16,1,.3,1);}
+.r2.in{opacity:1;transform:none;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  nav{padding:0 20px;}
+  .nav-links,.nav-oszimt,.nav-cta{display:none;}
+  .nav-mob{display:block;}
+  .hero-inner{padding:40px 20px;}
+  .hero-top{grid-template-columns:1fr;gap:0;}
+  .hero-card{display:none;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .stat:nth-child(2){border-right:none;}
+  .stat:nth-child(3){border-top:1px solid var(--border);}
+  .leis-grid{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .kont-grid{grid-template-columns:1fr;}
+  .legal-grid{grid-template-columns:1fr;}
+  .footer-main{grid-template-columns:1fr 1fr;padding:40px 20px;}
+  .footer-btm{padding:16px 20px;}
+  .wrap{padding:0 20px;}
+  #leistungen,#menu,#about,#kontakt,#legal{padding:72px 0;}
+}
+@media(max-width:640px){
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .kf-row{grid-template-columns:1fr;}
+  .menu-head{flex-direction:column;align-items:flex-start;}
+  .menu-tabs{flex-wrap:wrap;}
+  .menu-row{grid-template-columns:40px 1fr auto;}
+  .mr-badge{display:none;}
+  .footer-main{grid-template-columns:1fr;padding:32px 20px;}
+  .combo{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="t-item">🍔 rsBurger</span><span class="t-sep"> · </span>
+    <span class="t-item">Burger Catering Berlin</span><span class="t-sep"> · </span>
+    <span class="t-item">Handgemacht & Frisch</span><span class="t-sep"> · </span>
+    <span class="t-item">Events · Märkte · Schulen</span><span class="t-sep"> · </span>
+    <span class="t-item">Brandenburg & Berlin</span><span class="t-sep"> · </span>
+    <span class="t-item">Ab 2€</span><span class="t-sep"> · </span>
+    <span class="t-item">🍔 rsBurger</span><span class="t-sep"> · </span>
+    <span class="t-item">Burger Catering Berlin</span><span class="t-sep"> · </span>
+    <span class="t-item">Handgemacht & Frisch</span><span class="t-sep"> · </span>
+    <span class="t-item">Events · Märkte · Schulen</span><span class="t-sep"> · </span>
+    <span class="t-item">Brandenburg & Berlin</span><span class="t-sep"> · </span>
+    <span class="t-item">Ab 2€</span><span class="t-sep"> · </span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo"><span class="logo-rs">rs</span>Burger</a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#menu">Speisekarte</a></li>
+    <li><a href="#about">Über uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/oszimt/" class="nav-oszimt">🏫 OSZ IMT</a>
+    <a href="#kontakt" class="nav-cta">Jetzt anfragen →</a>
+    <button class="nav-mob" id="mobBtn"><div class="mob-lines"><span></span><span></span><span></span></div></button>
+  </div>
+</nav>
+
+<div class="mob-panel" id="mobPanel">
+  <a href="#leistungen" onclick="cm()">Leistungen</a>
+  <a href="#menu" onclick="cm()">Speisekarte</a>
+  <a href="#about" onclick="cm()">Über uns</a>
+  <a href="#kontakt" onclick="cm()">Kontakt</a>
+  <a href="/oszimt/" style="color:var(--blue)">OSZ IMT →</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-heading">
+        <div class="r" style="display:flex;align-items:center;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
+          <div class="hero-eyebrow" style="margin-bottom:0;">
+            <div class="ey-dot"></div>
+            <span class="ey-txt">Verfügbar · Berlin & Brandenburg</span>
+          </div>
+          <a href="/oszimt/" class="oszimt-btn">🏫 rsBurger @ OSZ IMT →</a>
+        </div>
+        <h1 class="hero-h1 r">
+          <span class="h-line1">Echter</span>
+          <span class="h-line2">Burger.</span>
+          <span class="h-line3">Überall.</span>
+        </h1>
+      </div>
+      <div class="hero-card r2">
+        <span class="hc-emoji">🍔</span>
+        <div class="hc-title">Mini Burger</div>
+        <div class="hc-sub">Handgemacht · Täglich frisch</div>
+        <div class="hc-divider"></div>
+        <div class="hc-stat"><span class="hc-stat-label">Preis ab</span><span class="hc-stat-val">2,00€</span></div>
+        <div class="hc-stat"><span class="hc-stat-label">Response</span><span class="hc-stat-val">&lt; 24h</span></div>
+        <div class="hc-stat"><span class="hc-stat-label">Region</span><span class="hc-stat-val">B + BB</span></div>
+      </div>
+    </div>
+
+    <div class="hero-mid r2">
+      <p class="hero-desc">
+        <strong>rsBurger</strong> bringt professionelles Burger-Catering direkt zu deinem Event –
+        handgemacht, frisch, zuverlässig. Von Stadtfesten bis Schulhoffesten in
+        <strong>Berlin & Brandenburg</strong>.
+      </p>
+      <div class="hero-actions">
+        <a href="#kontakt" class="btn-main">Jetzt anfragen →</a>
+        <a href="#leistungen" class="btn-out">Was wir machen</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats r">
+    <div class="stat"><div class="stat-n">4</div><div class="stat-l">Leistungsbereiche</div></div>
+    <div class="stat"><div class="stat-n">ab 2€</div><div class="stat-l">Pro Mini Burger</div></div>
+    <div class="stat"><div class="stat-n">&lt; 24h</div><div class="stat-l">Angebotsgarantie</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Frisch & handgemacht</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="m-track">
+    <span class="m-item on">🍔</span><span class="m-item">Classic Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Cheese Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Spicy Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Bacon Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Veggie Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Double Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">🍟 Pommes</span>
+    <span class="m-item on"> · </span><span class="m-item">Cola · Fanta · Sprite</span>
+    <span class="m-item on"> · </span><span class="m-item">🍭 Chupa Chups</span>
+    <span class="m-item on"> · </span>
+    <span class="m-item on">🍔</span><span class="m-item">Classic Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Cheese Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Spicy Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Bacon Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Veggie Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">Double Mini</span>
+    <span class="m-item on"> · </span><span class="m-item">🍟 Pommes</span>
+    <span class="m-item on"> · </span><span class="m-item">Cola · Fanta · Sprite</span>
+    <span class="m-item on"> · </span><span class="m-item">🍭 Chupa Chups</span>
+    <span class="m-item on"> · </span>
+  </div>
+</div>
+
+<!-- ═══ LEISTUNGEN ═══ -->
+<section id="leistungen">
+  <div class="wrap">
+    <div class="r"><div class="section-tag">Leistungen</div>
+    <h2 class="section-h">Was wir <span>machen.</span></h2></div>
+    <div class="leis-grid r2">
+      <div class="leis-card">
+        <div class="lc-num">01</div>
+        <span class="lc-icon">🎪</span>
+        <div class="lc-title">Events & Feste</div>
+        <div class="lc-desc">Stadtfeste, Firmenfeiern, Geburtstage und Streetfood-Festivals. Kompletter Stand von Aufbau bis Abbau – kein Stress für dich.</div>
+        <div class="lc-tags"><span class="lc-tag">Stadtfeste</span><span class="lc-tag">Firmenfeiern</span><span class="lc-tag">Festivals</span></div>
+      </div>
+      <div class="leis-card">
+        <div class="lc-num">02</div>
+        <span class="lc-icon">🏪</span>
+        <div class="lc-title">Märkte & Messen</div>
+        <div class="lc-desc">Wochen-, Floh- und Weihnachtsmärkte. Eigenständiger Verkaufsstand – selbst angemeldet, selbst organisiert, null Aufwand für dich.</div>
+        <div class="lc-tags"><span class="lc-tag">Wochenmärkte</span><span class="lc-tag">Weihnachtsmarkt</span><span class="lc-tag">Messen</span></div>
+      </div>
+      <div class="leis-card">
+        <div class="lc-num">03</div>
+        <span class="lc-icon">🏫</span>
+        <div class="lc-title">Schulen & Unis</div>
+        <div class="lc-desc">Schulfeste, Projekttage, Abiturfeiern und Pausenverkauf. Schnell, günstig, unkompliziert – wir kennen das Umfeld.</div>
+        <div class="lc-tags"><span class="lc-tag">Schulfeste</span><span class="lc-tag">Projekttage</span><span class="lc-tag">Abi-Feiern</span></div>
+      </div>
+      <div class="leis-card">
+        <div class="lc-num">04</div>
+        <span class="lc-icon">🚐</span>
+        <div class="lc-title">Catering auf Anfrage</div>
+        <div class="lc-desc">Individuelle Events, eigene Ideen – maßgeschneidertes Angebot in unter 24 Stunden. Kein Risiko, keine Verpflichtung.</div>
+        <div class="lc-tags"><span class="lc-tag">Individuell</span><span class="lc-tag">Ab 50 Pers.</span><span class="lc-tag">24h Angebot</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MENU ═══ -->
+<section id="menu">
+  <div class="wrap">
+    <div class="menu-head r">
+      <div><div class="section-tag">Speisekarte</div>
+      <h2 class="section-h" style="margin-bottom:0">Das <span>Angebot.</span></h2></div>
+      <div class="menu-tabs">
+        <button class="mtab on" onclick="sm('burger',this)">🍔 Burger</button>
+        <button class="mtab" onclick="sm('beilagen',this)">🍟 Beilagen</button>
+        <button class="mtab" onclick="sm('drinks',this)">🥤 Drinks</button>
+        <button class="mtab" onclick="sm('sweet',this)">🍭 Süßes</button>
+      </div>
+    </div>
+
+    <div class="menu-rows r2" id="mb">
+      <div class="menu-row"><span class="mr-icon">🍔</span><div><div class="mr-name">Classic Mini</div><div class="mr-desc">Patty · Bun · Senf & Ketchup</div></div><span class="mr-badge bg">Bestseller</span><div class="mr-price">2,00€</div></div>
+      <div class="menu-row"><span class="mr-icon">🧀</span><div><div class="mr-name">Cheese Mini</div><div class="mr-desc">Classic + Schmelzkäse</div></div><span class="mr-badge by">Beliebt</span><div class="mr-price">2,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">🥬</span><div><div class="mr-name">Veggie Mini</div><div class="mr-desc">Salat · Tomate · Sauce</div></div><span class="mr-badge bv">Veg 🌱</span><div class="mr-price">2,00€</div></div>
+      <div class="menu-row"><span class="mr-icon">🌶️</span><div><div class="mr-name">Spicy Mini</div><div class="mr-desc">Chili-Sauce · Nichts für Feiglinge</div></div><span class="mr-badge br">Scharf 🔥</span><div class="mr-price">2,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">🥓</span><div><div class="mr-name">Bacon Mini</div><div class="mr-desc">Knuspriger Speck on top</div></div><span class="mr-badge by">Premium</span><div class="mr-price">3,00€</div></div>
+      <div class="menu-row"><span class="mr-icon">🍔</span><div><div class="mr-name">Double Mini</div><div class="mr-desc">Doppeltes Patty · Doppelter Spaß</div></div><span class="mr-badge by">Double</span><div class="mr-price">3,50€</div></div>
+    </div>
+    <div class="menu-rows r2" id="mb2" style="display:none">
+      <div class="menu-row"><span class="mr-icon">🍟</span><div><div class="mr-name">Pommes Frites</div><div class="mr-desc">Knusprig · Ketchup oder Mayo</div></div><span class="mr-badge bg">Frisch</span><div class="mr-price">2,00€</div></div>
+    </div>
+    <div class="menu-rows r2" id="mb3" style="display:none">
+      <div class="menu-row"><span class="mr-icon">❤️</span><div><div class="mr-name">Coca-Cola</div><div class="mr-desc">0,33L · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">🧡</span><div><div class="mr-name">Fanta Orange</div><div class="mr-desc">0,33L · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">💙</span><div><div class="mr-name">Sprite</div><div class="mr-desc">0,33L · Eiskalt</div></div><span class="mr-badge"></span><div class="mr-price">1,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">💧</span><div><div class="mr-name">Wasser Still</div><div class="mr-desc">0,5L Flasche</div></div><span class="mr-badge"></span><div class="mr-price">1,00€</div></div>
+    </div>
+    <div class="menu-rows r2" id="mb4" style="display:none">
+      <div class="menu-row"><span class="mr-icon">🍭</span><div><div class="mr-name">Chupa Chups</div><div class="mr-desc">Der Klassiker</div></div><span class="mr-badge"></span><div class="mr-price">0,50€</div></div>
+      <div class="menu-row"><span class="mr-icon">🍭</span><div><div class="mr-name">3× Chupa Chups</div><div class="mr-desc">Bundle · Günstiger als einzeln</div></div><span class="mr-badge bg">Bundle</span><div class="mr-price">1,20€</div></div>
+    </div>
+
+    <div class="combo r2">
+      <div class="combo-left">
+        <div class="combo-tag">🔥 Combo Deal</div>
+        <div class="combo-name">2 Burger + Dose + Pommes</div>
+        <div class="combo-desc">Spar dir die Einzelpreise – gönn dir das Kombi.</div>
+      </div>
+      <div class="combo-price">ab 6€</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ÜBER UNS ═══ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-left r">
+        <div class="section-tag">Über rsBurger</div>
+        <h2 class="about-big">Wer wir <span>sind.</span></h2>
+        <div class="about-quote">"Kein Kantinenfrass. Echter Burger. Überall wo Menschen zusammenkommen."</div>
+        <p class="about-body">rsBurger ist ein junges Unternehmen aus Bernau bei Berlin das handgemachte Mini-Burger direkt zu den Menschen bringt – frisch, schnell, für jeden erschwinglich.</p>
+        <p class="about-body">Wir kümmern uns um alles: Aufbau, Betrieb, Abbau. Du lehnst dich zurück und genießt dein Event.</p>
+      </div>
+      <div class="about-right r2">
+        <div class="pillar"><div class="p-row"><div class="p-name">🔥 Frisch & Ehrlich</div><div class="p-num">01</div></div><div class="p-desc">Täglich frische Zutaten, keine Fertigprodukte. Volle Transparenz.</div></div>
+        <div class="pillar"><div class="p-row"><div class="p-name">⚡ Schnell & Zuverlässig</div><div class="p-num">02</div></div><div class="p-desc">Pünktlich, sauber, ohne Stress. Wir machen unsere Hausaufgaben.</div></div>
+        <div class="pillar"><div class="p-row"><div class="p-name">🤝 Fair & Transparent</div><div class="p-num">03</div></div><div class="p-desc">Klare Preise, keine bösen Überraschungen. Was wir sagen, gilt.</div></div>
+        <div class="pillar"><div class="p-row"><div class="p-name">📋 Hygienekonform</div><div class="p-num">04</div></div><div class="p-desc">Strikte Einhaltung aller lebensmittelrechtlichen Vorschriften.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ KONTAKT ═══ -->
+<section id="kontakt">
+  <div class="wrap">
+    <div class="kont-grid">
+      <div class="r">
+        <div class="section-tag">Kontakt</div>
+        <h2 class="kont-h">Dein Event.<br><span>Unser Burger.</span></h2>
+        <p class="kont-sub">Schreib uns kurz dein Event – wir melden uns in unter 24h mit einem individuellen Angebot. Kein Risiko, keine Verpflichtung.</p>
+        <div class="ki-list">
+          <div class="ki"><div class="ki-icon">✉️</div><div><div class="ki-label">E-Mail</div><div class="ki-val"><a href="mailto:sekretariat.rsburger@gmail.com">sekretariat.rsburger@gmail.com</a></div></div></div>
+          <div class="ki"><div class="ki-icon">📍</div><div><div class="ki-label">Region</div><div class="ki-val">Berlin & Brandenburg</div></div></div>
+          <div class="ki"><div class="ki-icon">⏱️</div><div><div class="ki-label">Antwortzeit</div><div class="ki-val">Innerhalb von 24 Stunden</div></div></div>
+          <div class="ki"><div class="ki-icon">👥</div><div><div class="ki-label">Mindestgröße</div><div class="ki-val">Ab 50 Personen (auch kleiner möglich)</div></div></div>
+          <div class="ki"><div class="ki-icon">💳</div><div><div class="ki-label">Zahlung</div><div class="ki-val">Bar · PayPal · Überweisung</div></div></div>
+        </div>
+      </div>
+      <div class="r2">
+        <div class="kform">
+          <form onsubmit="df(event)">
+            <div class="kf-row">
+              <div class="kf-g"><label class="kf-l">Vorname</label><input class="kf-c" placeholder="Max" required></div>
+              <div class="kf-g"><label class="kf-l">Nachname</label><input class="kf-c" placeholder="Mustermann"></div>
+            </div>
+            <div class="kf-g"><label class="kf-l">E-Mail</label><input type="email" class="kf-c" placeholder="max@beispiel.de" required></div>
+            <div class="kf-row">
+              <div class="kf-g">
+                <label class="kf-l">Event-Typ</label>
+                <select class="kf-c"><option>Bitte wählen …</option><option>Stadtfest / Festival</option><option>Firmenveranstaltung</option><option>Schulveranstaltung</option><option>Wochenmarkt</option><option>Private Feier</option><option>Sonstiges</option></select>
+              </div>
+              <div class="kf-g"><label class="kf-l">Gästezahl</label><input class="kf-c" placeholder="ca. 200 Personen"></div>
+            </div>
+            <div class="kf-g"><label class="kf-l">Datum</label><input type="date" class="kf-c"></div>
+            <div class="kf-g"><label class="kf-l">Nachricht</label><textarea class="kf-c" placeholder="Ort, Uhrzeit, besondere Wünsche…"></textarea></div>
+            <button type="submit" class="kf-sub" id="ksub">Anfrage absenden →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LEGAL ═══ -->
+<section id="legal">
+  <div class="wrap">
+    <div class="legal-grid">
+      <div class="legal-block r">
+        <span class="legal-tag">Impressum</span>
+        <h3>Angaben gemäß § 5 TMG</h3>
+        <p>Thomas Rosinski · rsBurger – Catering & Street Food<br>Bernau bei Berlin, Brandenburg</p>
+        <p><strong style="color:var(--white)">Kontakt:</strong> <a href="mailto:sekretariat.rsburger@gmail.com">sekretariat.rsburger@gmail.com</a></p>
+        <h3>Haftung für Inhalte</h3>
+        <p>Inhalte wurden mit größtmöglicher Sorgfalt erstellt. Für Richtigkeit kann keine Gewähr übernommen werden.</p>
+        <h3>Urheberrecht</h3>
+        <p>Vervielfältigung bedarf der schriftlichen Zustimmung des Betreibers.</p>
+      </div>
+      <div class="legal-block r2" id="datenschutz">
+        <span class="legal-tag">Datenschutz</span>
+        <h3>1. Verantwortlicher</h3>
+        <p>Thomas Rosinski · rsBurger<br><a href="mailto:sekretariat.rsburger@gmail.com">sekretariat.rsburger@gmail.com</a></p>
+        <h3>2. Erhebung von Daten</h3>
+        <p>Kontaktformular-Daten werden zur Bearbeitung deiner Anfrage gespeichert und nicht ohne Einwilligung weitergegeben.</p>
+        <h3>3. Cookies & Tracking</h3>
+        <p>Keine Tracking-Cookies, keine Analysedienste auf dieser Website.</p>
+        <h3>4. Deine Rechte (DSGVO)</h3>
+        <p>Auskunft, Berichtigung, Löschung: <a href="mailto:sekretariat.rsburger@gmail.com">sekretariat.rsburger@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-main">
+    <div>
+      <a href="#" class="f-logo"><span>rs</span>Burger</a>
+      <p class="f-desc">Professionelles Burger-Catering für Events, Märkte und Schulen in Berlin & Brandenburg. Handgemacht, frisch, zuverlässig.</p>
+    </div>
+    <div>
+      <span class="f-head">Navigation</span>
+      <ul class="f-links">
+        <li><a href="#leistungen">Leistungen</a></li>
+        <li><a href="#menu">Speisekarte</a></li>
+        <li><a href="#about">Über uns</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="f-head">Leistungen</span>
+      <ul class="f-links">
+        <li><a href="#leistungen">Events & Feste</a></li>
+        <li><a href="#leistungen">Märkte & Messen</a></li>
+        <li><a href="#leistungen">Schulen & Unis</a></li>
+        <li><a href="#leistungen">Auf Anfrage</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="f-head">Rechtliches</span>
+      <ul class="f-links">
+        <li><a href="#legal">Impressum</a></li>
+        <li><a href="#datenschutz">Datenschutz</a></li>
+        <li><a href="/oszimt/">OSZ IMT →</a></li>
+        <li><a href="mailto:sekretariat.rsburger@gmail.com">E-Mail</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-btm">
+    <span class="f-copy">© 2025 rsBurger · Thomas Rosinski · Bernau bei Berlin</span>
+    <div class="f-live"><div class="live-dot"></div>Verfügbar für Buchungen</div>
+  </div>
+</footer>
+
+<script>
+// Mobile
+document.getElementById('mobBtn').addEventListener('click',()=>document.getElementById('mobPanel').classList.toggle('open'));
+function cm(){document.getElementById('mobPanel').classList.remove('open');}
+
+// Reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.r,.r2').forEach(el=>obs.observe(el));
+setTimeout(()=>{document.querySelectorAll('#hero .r,#hero .r2').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),i*150));},60);
+
+// Menu tabs
+function sm(id,btn){
+  ['mb','mb2','mb3','mb4'].forEach((c,i)=>{
+    const el=document.getElementById(c);
+    if(el)el.style.display=['burger','beilagen','drinks','sweet'][i]===id?'flex':'none';
+    if(el&&['burger','beilagen','drinks','sweet'][i]===id)el.style.flexDirection='column';
+  });
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// Form
+function df(e){
+  e.preventDefault();
+  const b=document.getElementById('ksub');
+  b.textContent='✓ Gesendet – wir melden uns!';
+  b.style.background='#22c55e';
+  setTimeout(()=>{b.textContent='Anfrage absenden →';b.style.background='';e.target.reset();},4000);
+}
+</script>
+</body>
+</html>
