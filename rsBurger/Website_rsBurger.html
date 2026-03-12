@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Burger OSZ IMT Berlin</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --green:  #00FF87;
+  --pink:   #FF2D78;
+  --yellow: #FFE500;
+  --bg:     #080808;
+  --bg2:    #0f0f0f;
+  --border: rgba(0,255,135,0.12);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ══════════════════════════════════
+   GLOBAL LAYERS
+══════════════════════════════════ */
+.grid-layer {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,135,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,135,0.03) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ══════════════════════════════════
+   CUSTOM SCROLLBAR
+══════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green); }
+
+/* ══════════════════════════════════
+   TICKER
+══════════════════════════════════ */
+.ticker-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 36px;
+  background: var(--pink);
+  overflow: hidden;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 18s linear infinite;
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  color: var(--bg);
+  letter-spacing: 0.18em;
+  padding: 0 22px;
+}
+
+/* ══════════════════════════════════
+   NAV
+══════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 36px; left: 0; right: 0;
+  height: 56px;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 998;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: var(--yellow);
+  text-shadow: 0 0 12px rgba(255,229,0,0.5);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--green); }
+
+.nav-badge {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--bg);
+  background: var(--green);
+  padding: 4px 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  padding-top: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+
+.blob-1 { width:500px; height:500px; background:var(--pink);   opacity:0.12; top:-100px; right:-150px; }
+.blob-2 { width:400px; height:400px; background:var(--green);  opacity:0.10; bottom:0;  left:-120px; }
+.blob-3 { width:280px; height:280px; background:var(--yellow); opacity:0.09; top:40%;   left:35%; }
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-left {}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px; height: 2px;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.hero-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 14vw, 150px);
+  line-height: 0.85;
+  letter-spacing: -1px;
+  position: relative;
+}
+
+.glitch {
+  display: block;
+  color: #fff;
+  position: relative;
+  text-shadow: 0 0 6px rgba(255,255,255,0.3);
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  top:0; left:0;
+  color: var(--pink);
+  clip-path: polygon(0 28%, 100% 28%, 100% 48%, 0 48%);
+  transform: translate(-3px,0);
+  opacity: 0.75;
+  animation: g1 5s infinite;
+}
+
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top:0; left:0;
+  color: var(--green);
+  clip-path: polygon(0 62%, 100% 62%, 100% 78%, 0 78%);
+  transform: translate(3px,0);
+  opacity: 0.75;
+  animation: g2 5s infinite;
+}
+
+@keyframes g1 {
+  0%,88%,100% { transform:translate(0); clip-path:polygon(0 28%,100% 28%,100% 48%,0 48%); }
+  90% { transform:translate(-5px,1px); clip-path:polygon(0 18%,100% 18%,100% 55%,0 55%); }
+  93% { transform:translate(3px,-1px); }
+}
+
+@keyframes g2 {
+  0%,85%,100% { transform:translate(0); clip-path:polygon(0 62%,100% 62%,100% 78%,0 78%); }
+  87% { transform:translate(6px,-2px); clip-path:polygon(0 57%,100% 57%,100% 83%,0 83%); }
+  91% { transform:translate(-2px,1px); }
+}
+
+.glitch-yellow {
+  color: var(--yellow);
+  text-shadow: 0 0 18px rgba(255,229,0,0.6), 0 0 50px rgba(255,229,0,0.2);
+}
+
+.hero-sub {
+  margin-top: 28px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  max-width: 440px;
+  border-left: 3px solid var(--pink);
+  padding-left: 16px;
+}
+
+.hero-sub strong { color: var(--pink); font-style: normal; }
+
+.hero-cta-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  color: var(--bg);
+  background: var(--green);
+  padding: 12px 32px;
+  text-decoration: none;
+  display: inline-block;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+  transition: all 0.2s;
+  box-shadow: 0 0 20px rgba(0,255,135,0.3);
+}
+
+.btn-primary:hover {
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0,255,135,0.6);
+}
+
+.btn-secondary {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  color: var(--pink);
+  border: 1.5px solid var(--pink);
+  padding: 12px 32px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  box-shadow: 0 0 12px rgba(255,45,120,0.2), inset 0 0 12px rgba(255,45,120,0.04);
+}
+
+.btn-secondary:hover {
+  background: var(--pink);
+  color: var(--bg);
+  box-shadow: 0 0 30px rgba(255,45,120,0.5);
+}
+
+.hero-burger {
+  font-size: clamp(100px, 16vw, 180px);
+  line-height: 1;
+  filter: drop-shadow(0 0 18px rgba(255,229,0,0.8)) drop-shadow(0 0 60px rgba(255,229,0,0.3));
+  animation: float 3.5s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-18px) rotate(3deg); }
+}
+
+.hero-stats {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 60px auto 0;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border-top: 1px solid var(--border);
+}
+
+.stat {
+  padding: 24px 0;
+  border-right: 1px solid var(--border);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--yellow);
+  text-shadow: 0 0 12px rgba(255,229,0,0.4);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════
+   DIAGONAL DIVIDER
+══════════════════════════════════ */
+.diagonal-divider {
+  height: 60px;
+  background: var(--yellow);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 30%, 100% 100%, 0 70%);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.diagonal-divider-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 15s linear infinite;
+}
+
+.diagonal-divider-item {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--bg);
+  letter-spacing: 0.12em;
+  padding: 0 24px;
+}
+
+/* ══════════════════════════════════
+   SECTION HEADERS
+══════════════════════════════════ */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: 80px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 64px;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+
+.section-title span {
+  display: block;
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.3em;
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.section-count {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+}
+
+/* ══════════════════════════════════
+   MENU GRID
+══════════════════════════════════ */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.menu-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+
+.menu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-color, var(--green));
+  box-shadow: 0 0 12px var(--accent-color, var(--green));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.menu-card:hover::before { transform: scaleX(1); }
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,255,135,0.3);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,255,135,0.08);
+}
+
+.menu-card.pink-accent {
+  --accent-color: var(--pink);
+}
+.menu-card.pink-accent:hover {
+  border-color: rgba(255,45,120,0.3);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,45,120,0.08);
+}
+
+.menu-card.yellow-accent {
+  --accent-color: var(--yellow);
+}
+.menu-card.yellow-accent:hover {
+  border-color: rgba(255,229,0,0.3);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,229,0,0.08);
+}
+
+.card-emoji {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 16px;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(255,229,0,0.3));
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.menu-card:hover .card-emoji {
+  transform: scale(1.15) rotate(-5deg);
+  filter: drop-shadow(0 0 18px rgba(255,229,0,0.6));
+}
+
+.card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.card-desc {
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  margin-bottom: 20px;
+  min-height: 48px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.card-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--yellow);
+  text-shadow: 0 0 10px rgba(255,229,0,0.4);
+  line-height: 1;
+}
+
+.card-price sup {
+  font-size: 14px;
+  color: rgba(255,229,0,0.7);
+}
+
+.card-tag {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  padding: 3px 8px;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+
+.card-tag.green { color: var(--green); border-color: var(--green); }
+.card-tag.pink  { color: var(--pink);  border-color: var(--pink); }
+.card-tag.yellow{ color: var(--yellow);border-color: var(--yellow); }
+
+/* ══════════════════════════════════
+   GETRÄNKE – WIDE CARDS
+══════════════════════════════════ */
+.drinks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.drink-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 32px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.drink-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--drink-color, var(--green));
+  box-shadow: 0 0 12px var(--drink-color, var(--green));
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.drink-card:hover::after { transform: scaleX(1); }
+.drink-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.drink-card.cola   { --drink-color: #CC0000; }
+.drink-card.fanta  { --drink-color: #FF8800; }
+.drink-card.sprite { --drink-color: #00CC44; }
+
+.drink-emoji {
+  font-size: 70px;
+  line-height: 1;
+  margin-bottom: 16px;
+  display: block;
+  filter: drop-shadow(0 0 15px var(--drink-color, #fff));
+  transition: transform 0.3s;
+}
+
+.drink-card:hover .drink-emoji { transform: scale(1.2) rotate(8deg); }
+
+.drink-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 0.1em;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.drink-sub {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.drink-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--drink-color, var(--yellow));
+  text-shadow: 0 0 12px var(--drink-color, rgba(255,229,0,0.4));
+  line-height: 1;
+}
+
+/* ══════════════════════════════════
+   COMBO SECTION
+══════════════════════════════════ */
+.combo-box {
+  background: linear-gradient(135deg, rgba(0,255,135,0.05), rgba(255,45,120,0.05));
+  border: 1px solid rgba(0,255,135,0.2);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px;
+}
+
+.combo-box::before {
+  content: 'DEAL';
+  position: absolute;
+  top: -10px; right: 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 120px;
+  color: rgba(255,229,0,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.combo-box-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+
+.combo-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  line-height: 0.9;
+  color: var(--yellow);
+  text-shadow: 0 0 20px rgba(255,229,0,0.4);
+  margin-bottom: 12px;
+}
+
+.combo-desc {
+  font-size: 11px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.05em;
+  max-width: 400px;
+}
+
+.combo-items {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.combo-item {
+  font-size: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  width: 44px; height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.combo-item:hover { transform: scale(1.3); }
+
+.combo-price-block {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.combo-from {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.combo-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(0,255,135,0.5), 0 0 60px rgba(0,255,135,0.2);
+  line-height: 0.85;
+}
+
+.combo-price sup {
+  font-size: 30px;
+  color: rgba(0,255,135,0.7);
+}
+
+.combo-saving {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-top: 6px;
+  text-shadow: 0 0 8px var(--pink);
+}
+
+/* ══════════════════════════════════
+   STANDORT / INFO
+══════════════════════════════════ */
+#info-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.info-box {
+  padding: 48px 40px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+.info-box:last-child { border-right: none; }
+
+.info-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.info-label {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-shadow: 0 0 8px var(--green);
+}
+
+.info-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.05em;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.info-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  position: relative;
+  z-index: 2;
+  padding: 40px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--yellow);
+  text-shadow: 0 0 12px rgba(255,229,0,0.4);
+  letter-spacing: 0.08em;
+}
+
+.footer-text {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.footer-status {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ══════════════════════════════════
+   ENTRANCE ANIMATIONS
+══════════════════════════════════ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 768px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-burger { display: none; }
+  .hero-stats { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .drinks-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+  .info-box { border-right: none; border-bottom: 1px solid var(--border); }
+  .combo-box-inner { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .section { padding: 60px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Fixed layers -->
+<div class="grid-layer"></div>
+<div class="scanlines"></div>
+
+<!-- Ticker -->
+<div class="ticker-bar">
+  <div class="ticker-inner">
+    <span class="ticker-item">🍔 MINI BURGER OSZ IMT</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">⚡ IN DER PAUSE</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🔥 FRISCH GEMACHT</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🥤 COLA · FANTA · SPRITE</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🍟 POMMES</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🍭 CHUPA CHUPS</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">📍 OSZ IMT BERLIN</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🍔 MINI BURGER OSZ IMT</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">⚡ IN DER PAUSE</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🔥 FRISCH GEMACHT</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🥤 COLA · FANTA · SPRITE</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🍟 POMMES</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">🍭 CHUPA CHUPS</span>
+    <span class="ticker-item">·</span>
+    <span class="ticker-item">📍 OSZ IMT BERLIN</span>
+    <span class="ticker-item">·</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="#hero" class="nav-logo">🍔 Mini Burger OSZ</a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#drinks">Getränke</a></li>
+    <li><a href="#snacks">Snacks</a></li>
+    <li><a href="#info">Standort</a></li>
+  </ul>
+  <div class="nav-badge">Neu ab heute</div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-left fade-up">
+      <div class="hero-eyebrow">// Freshly Crafted · OSZ IMT Berlin</div>
+      <h1 class="hero-headline">
+        <span class="glitch" data-text="MINI">MINI</span>
+        <span class="glitch glitch-yellow" data-text="BURGER">BURGER</span>
+      </h1>
+      <p class="hero-sub">
+        <strong>Kein Kantinenfrass.</strong> Echte Burger, handgemacht,
+        warm serviert – direkt auf dem Schulgelände.
+        Klein im Format. <strong>Groß im Geschmack.</strong>
+      </p>
+      <div class="hero-cta-row">
+        <a href="#menu" class="btn-primary">Zur Speisekarte</a>
+        <a href="#info" class="btn-secondary">Wo & Wann?</a>
+      </div>
+    </div>
+    <div class="hero-burger fade-up">🍔</div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat fade-up">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Frisch & Handgemacht</div>
+    </div>
+    <div class="stat fade-up" style="padding-left:32px;">
+      <div class="stat-num">Ab 2€</div>
+      <div class="stat-label">Pro Mini Burger</div>
+    </div>
+    <div class="stat fade-up" style="padding-left:32px;">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Minuten Wartezeit</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIAGONAL DIVIDER ═══ -->
+<div class="diagonal-divider">
+  <div class="diagonal-divider-inner">
+    <span class="diagonal-divider-item">🍔 MINI BURGER</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🥤 KALTGETRÄNKE</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🍟 POMMES</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🍭 SÜSSKRAM</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🍔 MINI BURGER</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🥤 KALTGETRÄNKE</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🍟 POMMES</span>
+    <span class="diagonal-divider-item">·</span>
+    <span class="diagonal-divider-item">🍭 SÜSSKRAM</span>
+    <span class="diagonal-divider-item">·</span>
+  </div>
+</div>
+
+<!-- ═══ BURGER MENU ═══ -->
+<div id="menu" style="position:relative;z-index:2;">
+  <div class="section">
+    <div class="section-header fade-up">
+      <div class="section-title">
+        <span>// 01 — Burger</span>
+        SPEISEKARTE
+      </div>
+      <div class="section-count">01</div>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card fade-up">
+        <span class="card-emoji">🍔</span>
+        <div class="card-name">Classic Mini</div>
+        <div class="card-desc">Saftiges Patty, weicher Bun, Senf & Ketchup. Der Klassiker – unschlagbar.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>2</div>
+          <div class="card-tag green">Bestseller</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up yellow-accent">
+        <span class="card-emoji">🧀</span>
+        <div class="card-name">Cheese Mini</div>
+        <div class="card-desc">Wie der Classic – aber mit echtem Schmelzkäse drauf. Need we say more?</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>2,50</div>
+          <div class="card-tag yellow">Beliebt</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up pink-accent">
+        <span class="card-emoji">🥬</span>
+        <div class="card-name">Veggie Mini</div>
+        <div class="card-desc">Frischer Salat, Tomate, Sauce – für alle die kein Fleisch wollen. Trotzdem krass.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>2</div>
+          <div class="card-tag pink">Vegetarisch</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up yellow-accent">
+        <span class="card-emoji">🌶️</span>
+        <div class="card-name">Spicy Mini</div>
+        <div class="card-desc">Extra Chili-Sauce für die, die es heiß mögen. Nicht für schwache Nerven.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>2,50</div>
+          <div class="card-tag yellow">Hot 🔥</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up">
+        <span class="card-emoji">🍔🍔</span>
+        <div class="card-name">Double Mini</div>
+        <div class="card-desc">Weil einer nicht reicht. Doppeltes Patty, doppelter Genuss, einfaches Glück.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>3,50</div>
+          <div class="card-tag green">Double</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up pink-accent">
+        <span class="card-emoji">🥓</span>
+        <div class="card-name">Bacon Mini</div>
+        <div class="card-desc">Knuspriger Speck on top. Der Upgrade den du brauchst aber nie wusstest.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>3</div>
+          <div class="card-tag pink">Premium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBO BOX -->
+    <div class="combo-box fade-up">
+      <div class="combo-box-inner">
+        <div>
+          <div class="combo-title">COMBO<br>DEAL</div>
+          <div class="combo-desc">
+            2 Mini Burger + 1 Dose + 1 Pommes.<br>
+            Das beste Preis-Leistungs-Verhältnis des OSZ.<br>
+            <span style="color:var(--green);font-size:10px;letter-spacing:0.15em;">// NUR SOLANGE VORRAT REICHT</span>
+          </div>
+          <div class="combo-items">
+            <div class="combo-item">🍔</div>
+            <div class="combo-item">🍔</div>
+            <span style="font-family:'Bebas Neue';font-size:20px;color:rgba(255,255,255,0.3);align-self:center;">+</span>
+            <div class="combo-item">🥤</div>
+            <span style="font-family:'Bebas Neue';font-size:20px;color:rgba(255,255,255,0.3);align-self:center;">+</span>
+            <div class="combo-item">🍟</div>
+          </div>
+        </div>
+        <div class="combo-price-block">
+          <div class="combo-from">Combo ab</div>
+          <div class="combo-price"><sup>€</sup>6</div>
+          <div class="combo-saving">↑ Günstiger als einzeln</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DRINKS ═══ -->
+<div id="drinks" style="position:relative;z-index:2;background:rgba(255,255,255,0.01);">
+  <div class="section">
+    <div class="section-header fade-up">
+      <div class="section-title">
+        <span>// 02 — Getränke</span>
+        KALT & EISIG
+      </div>
+      <div class="section-count">02</div>
+    </div>
+
+    <div class="drinks-grid">
+      <div class="drink-card cola fade-up">
+        <span class="drink-emoji">🥤</span>
+        <div class="drink-name">Coca-Cola</div>
+        <div class="drink-sub">0,33L Dose · Ice Cold</div>
+        <div class="drink-price" style="color:#CC0000;text-shadow:0 0 12px rgba(200,0,0,0.5);">1,50 €</div>
+      </div>
+
+      <div class="drink-card fanta fade-up">
+        <span class="drink-emoji">🍊</span>
+        <div class="drink-name">Fanta</div>
+        <div class="drink-sub">0,33L Dose · Orange</div>
+        <div class="drink-price" style="color:#FF8800;text-shadow:0 0 12px rgba(255,136,0,0.5);">1,50 €</div>
+      </div>
+
+      <div class="drink-card sprite fade-up">
+        <span class="drink-emoji">💚</span>
+        <div class="drink-name">Sprite</div>
+        <div class="drink-sub">0,33L Dose · Lemon-Lime</div>
+        <div class="drink-price" style="color:#00CC44;text-shadow:0 0 12px rgba(0,200,68,0.5);">1,50 €</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SNACKS ═══ -->
+<div id="snacks" style="position:relative;z-index:2;">
+  <div class="section">
+    <div class="section-header fade-up">
+      <div class="section-title">
+        <span>// 03 — Snacks</span>
+        EXTRAS
+      </div>
+      <div class="section-count">03</div>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card fade-up yellow-accent" style="grid-column:span 2;">
+        <span class="card-emoji">🍟</span>
+        <div class="card-name">Pommes</div>
+        <div class="card-desc">Knusprig frittiert, gesalzen, heiß – der perfekte Begleiter zu jedem Burger. Mit Ketchup oder Mayo auf Wunsch.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>2</div>
+          <div class="card-tag yellow">Frisch frittiert</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up pink-accent">
+        <span class="card-emoji">🍭</span>
+        <div class="card-name">Chupa Chups</div>
+        <div class="card-desc">Der Klassiker. Zum Schluss. Weil süß sein kein Verbrechen ist.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>0,50</div>
+          <div class="card-tag pink">Sweet</div>
+        </div>
+      </div>
+
+      <div class="menu-card fade-up">
+        <span class="card-emoji">🍭🍭🍭</span>
+        <div class="card-name">3x Chupa Chups</div>
+        <div class="card-desc">Für alle die teilen wollen. Oder für sich selbst. Wir urteilen nicht.</div>
+        <div class="card-footer">
+          <div class="card-price"><sup>€</sup>1,20</div>
+          <div class="card-tag green">Bundle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INFO / STANDORT ═══ -->
+<div id="info-section" id="info">
+  <div id="info" style="max-width:1100px;margin:0 auto;">
+    <div class="section" style="padding-bottom:0;padding-top:60px;">
+      <div class="section-header fade-up">
+        <div class="section-title">
+          <span>// 04 — Wo & Wann</span>
+          STANDORT
+        </div>
+        <div class="section-count">04</div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-box fade-up">
+        <span class="info-icon">📍</span>
+        <div class="info-label">Adresse</div>
+        <div class="info-value">OSZ IMT<br>Berlin</div>
+        <div class="info-sub">Oberstufenzentrum Informations-<br>und Medizintechnik</div>
+      </div>
+      <div class="info-box fade-up">
+        <span class="info-icon">⏰</span>
+        <div class="info-label">Verfügbarkeit</div>
+        <div class="info-value">In der<br>Pause</div>
+        <div class="info-sub">Nur solange der Vorrat reicht.<br>Also: früh kommen!</div>
+      </div>
+      <div class="info-box fade-up">
+        <span class="info-icon">⚠️</span>
+        <div class="info-label">Wichtiger Hinweis</div>
+        <div class="info-value">Begrenzte<br>Stückzahl</div>
+        <div class="info-sub">Wer zu spät kommt,<br>bekommt nix mehr. Deal with it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo">🍔 Mini Burger OSZ</div>
+  <div class="footer-text">
+    Handgemacht mit Liebe · OSZ IMT Berlin<br>
+    Nur in der Pause · Nur solange Vorrat reicht
+  </div>
+  <div class="footer-status">
+    <div class="status-dot"></div>
+    Heute verfügbar
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80 * (Array.from(entry.target.parentElement?.children || []).indexOf(entry.target)));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Trigger hero elements immediately
+  setTimeout(() => {
+    document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 150);
+    });
+  }, 100);
+</script>
+</body>
+</html>
