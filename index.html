@@ -424,6 +424,39 @@ textarea.kf-c{resize:none;height:110px;}
 }
 .kf-sub:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,255,0,0.25);}
 
+
+.form-wrap{position:relative;}
+.form-wrap .kform{filter:grayscale(1) opacity(0.35);pointer-events:none;user-select:none;}
+.form-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:16px;overflow:hidden;
+  z-index:10;
+}
+.tape{
+  width:130%;transform:rotate(-3deg);
+  background:repeating-linear-gradient(
+    -45deg,
+    #F5C800 0px, #F5C800 30px,
+    #1a1a1a 30px, #1a1a1a 60px
+  );
+  padding:18px 0;text-align:center;
+  box-shadow:0 4px 24px rgba(0,0,0,0.5);
+  margin-bottom:16px;
+}
+.tape-text{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:0.25em;
+  color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.4);
+}
+.form-soon-sub{
+  font-size:12px;font-weight:700;
+  color:rgba(245,245,240,0.5);
+  letter-spacing:0.08em;
+}
+.form-soon-sub a{color:var(--neon);text-decoration:none;}
+.form-soon-sub a:hover{text-decoration:underline;}
+
 /* ══ LEGAL ══ */
 #legal{padding:80px 0;border-top:1px solid var(--border);}
 .legal-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
@@ -742,7 +775,7 @@ footer{background:var(--card);border-top:1px solid var(--border);}
         </div>
       </div>
       <div class="r2">
-        <div class="kform">
+        <div class="form-wrap"><div class="form-overlay"><div class="tape"><span class="tape-text">⚠ COMING SOON ⚠</span></div><p class="form-soon-sub">Melde dich gerne per <a href="mailto:sekretariat.rsburger@gmail.com">Mail!</a></p></div><div class="kform">
           <form onsubmit="df(event)">
             <div class="kf-row">
               <div class="kf-g"><label class="kf-l">Vorname</label><input class="kf-c" placeholder="Max" required></div>
